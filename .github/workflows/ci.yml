@@ -1,0 +1,71 @@
+name: CI/CD Quality Gates & Regression Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-gates-and-regression:
+    name: Monorepo Quality Gates & E2E Regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Prettier Code Formatting
+        run: npm run format:check
+
+      - name: Backend Static Code Analysis (ESLint)
+        run: npm run backend:lint
+
+      - name: Backend TypeScript Compilation & Build
+        run: npm run backend:build
+
+      - name: Backend Automated Unit Tests (168 tests)
+        run: npm run test:unit
+
+      - name: Frontend Static Code Analysis (ESLint)
+        run: npm run frontend:lint
+
+      - name: Frontend TypeScript Compilation & Production Build
+        run: npm run frontend:build
+
+      - name: Frontend Automated Unit & Component Tests (Vitest)
+        run: npm run frontend:test
+
+      - name: Execute Stage 1 Regression Suite (Foundation & Probes)
+        run: npx tsx scripts/test-stage1-regression.ts
+
+      - name: Execute Stage 2 Regression Suite (Domain & Schemas)
+        run: npx tsx scripts/test-stage2.ts
+
+      - name: Execute Stage 3 Regression Suite (Persistence & Repositories)
+        run: npx tsx scripts/test-stage3.ts
+
+      - name: Execute Stage 4 Regression Suite (Auth, RBAC & Core Services)
+        run: npx tsx scripts/test-stage4.ts
+
+      - name: Execute Stage 5 Regression Suite (API Delivery Layer - 21 Endpoints)
+        run: npx tsx scripts/test-stage5.ts
+
+      - name: Execute Stage 8 Regression Suite (Frontend E2E Loopback Integration)
+        run: npx tsx scripts/test-stage8.ts
+
+      - name: Execute Stage 9 Verification Suite (DevOps & Production Readiness)
+        run: npx tsx scripts/test-stage9.ts
+
+      - name: Execute Stage 10 Verification Suite (Security, Performance, A11y & E2E)
+        run: npx tsx scripts/test-stage10.ts
