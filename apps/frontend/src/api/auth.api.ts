@@ -1,9 +1,13 @@
 import { apiClient, setAccessToken } from './client';
 import {
   AuthTokensResponseDto,
+  ForgotPasswordRequestDto,
+  ForgotPasswordResponseDto,
   LoginUserDto,
   RefreshTokenResponseDto,
   RegisterUserDto,
+  ResetPasswordDto,
+  ResetPasswordResponseDto,
 } from '../types/auth';
 import { IUserPublic } from '../types/user';
 
@@ -22,6 +26,22 @@ export const authApi = {
    */
   async register(dto: RegisterUserDto): Promise<IUserPublic> {
     const response = await apiClient.post<IUserPublic>('/auth/register', dto);
+    return response.data;
+  },
+
+  /**
+   * POST /api/v1/auth/forgot-password
+   */
+  async forgotPassword(dto: ForgotPasswordRequestDto): Promise<ForgotPasswordResponseDto> {
+    const response = await apiClient.post<ForgotPasswordResponseDto>('/auth/forgot-password', dto);
+    return response.data;
+  },
+
+  /**
+   * POST /api/v1/auth/reset-password
+   */
+  async resetPassword(dto: ResetPasswordDto): Promise<ResetPasswordResponseDto> {
+    const response = await apiClient.post<ResetPasswordResponseDto>('/auth/reset-password', dto);
     return response.data;
   },
 

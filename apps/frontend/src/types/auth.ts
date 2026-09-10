@@ -33,3 +33,24 @@ export interface RefreshTokenResponseDto {
   tokenType: 'Bearer';
   expiresIn: number;
 }
+
+export interface ForgotPasswordRequestDto {
+  email: string;
+}
+
+export interface ForgotPasswordResponseDto {
+  success: boolean;
+  message: string;
+  simulatedCode?: string;
+}
+
+export interface ResetPasswordDto {
+  email: string;
+  code: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponseDto {
+  success: boolean;
+  message: string;
+}

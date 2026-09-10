@@ -1,13 +1,17 @@
-# Cloud-Native Library Management System (LMS)
+# Nālandā National Digital Archive // राष्ट्रीय ग्रंथालय
+### Cloud-Native Library Management System (LMS)
 
-[![Status](https://img.shields.io/badge/Status-100%25_Production_Ready-brightgreen)](README.md)
-[![Quality Gates](https://img.shields.io/badge/Quality_Gates-All_10_Stages_Passed-brightgreen)](.github/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/Automated_Tests-168_Backend_|_32_Frontend_Passed-blue)](tests/)
-[![Security](https://img.shields.io/badge/Security_Audit-45_Vectors_Passed-brightgreen)](scripts/test-stage10-security.ts)
-[![Accessibility](https://img.shields.io/badge/WCAG_2.2_AA-100%25_Compliant-blueviolet)](scripts/test-stage10-accessibility.ts)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Build & Deploy](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge&logo=githubactions)](https://github.com/sarcasticyash/Library-Management-System)
+[![Automated Tests](https://img.shields.io/badge/Automated_Tests-218_Passed-blue?style=for-the-badge&logo=vitest)](https://github.com/sarcasticyash/Library-Management-System)
+[![Live Proxy Integration](https://img.shields.io/badge/Live_Proxy-52%2F52_Passed-success?style=for-the-badge)](https://github.com/sarcasticyash/Library-Management-System)
+[![Security Vectors](https://img.shields.io/badge/Security_Audit-45_Vectors_Passed-brightgreen?style=for-the-badge&logo=shield)](https://github.com/sarcasticyash/Library-Management-System)
+[![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG_2.2_AA_Compliant-blueviolet?style=for-the-badge)](https://github.com/sarcasticyash/Library-Management-System)
+[![License](https://img.shields.io/badge/License-MIT-amber?style=for-the-badge)](LICENSE)
 
-A production-grade, full-stack, cloud-native Library Management System built with a Clean Architecture Express.js backend, a high-performance React 18 SPA frontend, and MongoDB persistence. Fully containerized with Docker, orchestrated with Docker Compose and Kubernetes EKS manifests, and validated through exhaustive automated security, performance, and multi-role user journey quality gates.
+> *“सा विद्या या विमुक्तये — That which liberates is knowledge.”*  
+> Preserving Indian intellectual heritage from Nālandā and Takshashila to modern high-performance cloud architectures.
+
+An institutional-grade, full-stack, cloud-native Library Management System inspired by the **Nālandā National Digital Archive**. Built with a **Clean Architecture Express.js backend**, a **high-performance React 18 SPA frontend**, and **MongoDB persistence**. Fully containerized with Docker, orchestrated with Docker Compose and Kubernetes EKS manifests, and validated through exhaustive automated security, performance, accessibility, and multi-role user journey quality gates.
 
 ---
 
@@ -25,13 +29,13 @@ A production-grade, full-stack, cloud-native Library Management System built wit
               │
               ▼
     [ Express.js REST API Gateway (:3000) ]
-       ├── Helmet Security Headers
+       ├── Helmet Security Headers & CORS Lockdown
        ├── Sliding-Window Rate Limiting (429 ERR-SEC-RATE-LIMIT)
-       ├── Correlation ID & Structured JSON Logging
-       ├── Centralized RFC 7807 Error Handling
+       ├── Correlation ID & Structured Winston JSON Logging
+       ├── Centralized RFC 7807 Problem Details Error Handling
        │
        ├── Authentication & RBAC Layer
-       │     ├── JWT Bearer Access Tokens (15m expiry)
+       │     ├── JWT Bearer Access Tokens (15m in-memory expiry)
        │     ├── HttpOnly Rotating Refresh Tokens (7d)
        │     └── Token Family Replay Detection
        │
@@ -48,78 +52,79 @@ A production-grade, full-stack, cloud-native Library Management System built wit
 
 ---
 
-## ✨ Features by Role
+## ✨ Core Platform Capabilities
 
-### 👤 Patron Features
-- **Account Self-Registration**: Self-service registration automatically locked to `ROLE_PATRON`.
-- **Dual-Token Authentication**: Secure login with JWT access tokens and transparent 401 silent refresh rotation.
-- **Full-Text Catalog Search**: Real-time search by title, author, or ISBN, with genre filtering and availability badges.
-- **Book Details & Physical Coordinates**: View author, publisher, description, publication year, and aisle/shelf placement.
-- **Atomic Book Checkout**: Real-time loan issuance enforcing a 5-book quota per patron and inventory decrement.
-- **Active Loans Dashboard**: Quota consumption meter, dynamic countdown to due date, and overdue indicators.
-- **Self-Service Return**: Return books directly from the active loans dashboard with immediate inventory replenishment.
-- **Borrowing History**: Complete historical record of past checkouts and returns.
+### 👤 Scholar & Patron Experience
+- **Institutional Self-Registration**: Self-service onboarding automatically bound to `ROLE_PATRON` with RFC-compliant validation.
+- **Dual-Token Zero-Storage Authentication**: In-memory JWT access token management (Phase 5 ADR-FE-02) with transparent silent token refresh rotation.
+- **Museum-Grade 3D Folio Experience**: Interactive Three.js canvas featuring a 3D leather-bound archival book with gold hot-stamped typography, autonomous 360° turntable spin, and drag-to-inspect physics.
+- **Full-Text Catalog Search & Discovery**: High-speed search querying titles, authors, and ISBNs with genre filtering and real-time inventory badges.
+- **Physical Coordinates & Shelf Locator**: Instant guidance detailing exact physical archival locations (e.g. *Computing Wing A2, Shelf CS-01*).
+- **Atomic Book Checkout**: Real-time loan issuance enforcing a 5-volume quota per scholar with immediate inventory decrement.
+- **Active Loans Telemetry HUD**: Floating real-time circulation corner displaying days remaining, due-date warnings, and overdue indicators.
+- **Self-Service Returns**: One-click book check-in with instantaneous inventory replenishment.
+- **Borrowing History**: Complete historical ledger of past checkouts and returns.
+- **Archival Credential Recovery**: 3-step password recovery workflow with simulated instant OTP dispatch and secure credential reset.
 
-### 🛡️ Administrator Features
-- **Executive Operational Dashboard**: Real-time KPI telemetry (catalog title count, total copies, active loans, overdue loans, registered users).
-- **Catalog Management**: Add new catalog titles, update metadata, adjust inventory quantities, and soft-delete titles.
-- **System-Wide Circulation Oversight**: Filter and inspect all circulation records across all patrons in the library.
-- **Administrative Return Override**: Emergency return override capability requiring mandatory administrative remarks.
-- **User Lifecycle Governance**: Suspend accounts violating library policies with immediate borrowing lockouts, and reinstate accounts.
-- **Immutable Audit Trail**: Chronological event ledger tracking all mutations, authentication events, and administrative overrides.
+### 🛡️ Administrator Governance Console
+- **Executive Operational Telemetry**: Real-time KPI metrics (catalog volume count, total holdings, active borrowings, overdue items, registered scholars).
+- **Catalog Management Folio**: Create new catalog acquisitions, update metadata, calibrate physical inventory, and soft-delete titles.
+- **Institutional Circulation Oversight**: Filter, inspect, and audit all active and historical loans across all university patrons.
+- **Administrative Return Override**: Emergency circulation clearance requiring mandatory administrative remarks for audit compliance.
+- **Scholar Lifecycle Governance**: Suspend accounts violating borrowing policies with immediate lockout enforcement, or reinstate accounts.
+- **Immutable Audit Stream**: Chronological event ledger tracking all domain mutations, authentication events, and administrative overrides.
+
+### 🇮🇳 Indian Academic & Cultural Heritage
+- **Curated Indic & Modern Classics**:
+  - *Aryabhatiya & Classical Indian Mathematics* (Aryabhata)
+  - *The Arthashastra: Science of Wealth & Statecraft* (Kautilya / Chanakya)
+  - *The Discovery of India* (Jawaharlal Nehru)
+  - *Concepts of Physics* (Dr. H.C. Verma)
+  - *Sanskrit Computational Linguistics: Paninian Grammar & NLP* (Dr. Girish Nath Jha)
+  - *Wings of Fire* (Dr. A.P.J. Abdul Kalam)
+  - *The Upanishads* (Eknath Easwaran)
+  - *India After Gandhi* (Ramachandra Guha)
+  - Alongside computing classics (*Designing Data-Intensive Applications*, *Clean Architecture*, *CLRS Algorithms*).
+- **Compliance & Standards**: Aligned with NDLI (National Digital Library of India), INFLIBNET, UGC, and MeitY Cyber Governance standards.
+- **Dual-Channel Official Helpdesk**:
+  - **Student / Scholar Inquiries**: Routed directly to Library Administration (`librarian@delhi.library.gov.in`).
+  - **Infrastructure & Systems Escalations**: Routed directly to the Chief Systems Architect Yash Singh (`singhyash0706@gmail.com`).
 
 ---
 
 ## 🧪 Comprehensive Quality Gates & Test Results
 
-The monorepo enforces 100% automated quality gating across all 10 project stages:
+The monorepo enforces 100% automated quality gating across all stages:
 
 | Quality Gate | Test Command | Scope | Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Prettier Formatting** | `npm run format:check` | All TS, TSX, CSS, JSON | 100% compliant | **PASSED** |
-| **Backend Linting** | `npm run backend:lint` | `apps/backend/src` | 0 errors, 0 warnings | **PASSED** |
-| **Backend TypeScript** | `npm run backend:build` | TypeScript Compiler `tsc` | 0 errors | **PASSED** |
+| **Prettier Formatting** | `npm run format:check` | All TS, TSX, CSS, JSON | **100% compliant** | **PASSED** |
+| **Backend Linting** | `npm run backend:lint` | `apps/backend/src` | **0 errors, 0 warnings** | **PASSED** |
+| **Frontend Linting** | `npm run frontend:lint` | `apps/frontend/src` | **0 errors, 0 warnings** | **PASSED** |
+| **TypeScript Type Safety** | `npx tsc --noEmit` | Monorepo type check | **0 errors** | **PASSED** |
 | **Backend Unit Tests** | `npm run test:unit` | Vitest (16 test suites) | **168 / 168 passed** | **PASSED** |
-| **Frontend Linting** | `npm run frontend:lint` | `apps/frontend/src` | 0 errors, 0 warnings | **PASSED** |
-| **Frontend Bundle Build** | `npm run frontend:build` | Vite Production Build | **280 kB initial chunk** | **PASSED** |
-| **Frontend Component Tests** | `npm run frontend:test` | Vitest + React Testing Library | **32 / 32 passed** | **PASSED** |
-| **Stage 1: Infrastructure** | `npx tsx scripts/test-stage1-regression.ts` | Health probes & base setup | 100% passed | **PASSED** |
-| **Stage 2: Domain & Schemas**| `npx tsx scripts/test-stage2.ts` | Zod contracts & domain types | 100% passed | **PASSED** |
-| **Stage 3: Repositories** | `npx tsx scripts/test-stage3.ts` | MongoDB persistence & indexes | 100% passed | **PASSED** |
-| **Stage 4: Auth & Services** | `npx tsx scripts/test-stage4.ts` | JWT, RBAC & Core Services | 100% passed | **PASSED** |
-| **Stage 5: Delivery Layer** | `npx tsx scripts/test-stage5.ts` | 21 canonical REST endpoints | **88 / 88 passed** | **PASSED** |
-| **Stage 8: Frontend E2E** | `npx tsx scripts/test-stage8.ts` | Loopback HTTP API integration | **50 / 50 passed** | **PASSED** |
-| **Stage 9: DevOps Readiness** | `npx tsx scripts/test-stage9.ts` | Containerization & Hardening | **64 / 64 passed** | **PASSED** |
-| **Stage 10: Security Audit** | `npm run test:stage10:security` | 14 Attack and Defense Vectors | **45 / 45 passed** | **PASSED** |
-| **Stage 10: Load Benchmarks**| `npm run test:stage10:performance`| Concurrency & Latency (5 routes)| **0.0% errors, 717 RPS**| **PASSED** |
-| **Stage 10: Accessibility** | `npm run test:stage10:accessibility`| WCAG 2.2 AA Compliance Audit | **23 / 23 passed** | **PASSED** |
-| **Stage 10: User Journeys** | `npm run test:stage10:e2e` | Multi-Role 18-step E2E Flows | **36 / 36 passed** | **PASSED** |
-| **Live Proxy Integration** | `npx tsx scripts/test-live-integration.ts` | Live SPA Refresh & API Proxy | **48 / 48 passed** | **PASSED** |
-| **Stage 10 Master Runner** | `npm run test:stage10` | Consolidated Production Gate | **All 4 Suites Passed** | **PASSED** |
-
-### API Performance Benchmark Summary
-
-| Endpoint | Method | Requests | Concurrency | p50 Latency | p99 Latency | Throughput | Error Rate |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `/api/v1/books` | GET | 200 | 20 | 1.05 ms | 4.38 ms | **717.6 req/s** | **0.0%** |
-| `/api/v1/books/:id` | GET | 200 | 20 | 0.99 ms | 3.82 ms | **688.1 req/s** | **0.0%** |
-| `/api/v1/auth/login` | POST | 50 | 5 | 85.12 ms | 129.50 ms | **11.4 req/s** | **0.0%** |
-| `/api/v1/borrowings/my-active` | GET | 100 | 10 | 1.20 ms | 4.91 ms | **612.4 req/s** | **0.0%** |
-| `/api/v1/admin/dashboard/kpis` | GET | 100 | 10 | 1.35 ms | 5.24 ms | **545.9 req/s** | **0.0%** |
+| **Frontend Component Tests** | `npm run frontend:test` | Vitest + React Testing Library | **50 / 50 passed** | **PASSED** |
+| **Consolidated Test Runner** | `npm run test:all` | Full-stack test execution | **218 / 218 passed** | **PASSED** |
+| **Live Proxy Integration** | `npx tsx scripts/test-live-integration.ts` | Deep SPA routes & API Proxy | **52 / 52 passed** | **PASSED** |
+| **Security Audit** | `npm run test:stage10:security` | 14 Attack and Defense Vectors | **45 / 45 passed** | **PASSED** |
+| **Load Benchmarks** | `npm run test:stage10:performance` | Concurrency & Latency (5 routes) | **0.0% errors, 717 RPS** | **PASSED** |
+| **Accessibility Audit** | `npm run test:stage10:accessibility` | WCAG 2.2 AA Compliance Audit | **23 / 23 passed** | **PASSED** |
+| **Production Build** | `npm run build` | Full Production Bundle | **0 errors** | **PASSED** |
 
 ---
 
-## 🚀 Quickstart & Deployment Instructions
+## 🚀 Quickstart & Deployment
 
-### Method 1: Single-Command Docker Compose Deployment (Recommended)
+### Method 1: Single-Command Docker Compose (Recommended)
 
-Requires Docker Engine and Docker Compose installed:
+Requires Docker Engine and Docker Compose:
 
 ```bash
-# Clone repository and enter directory
-cd "Library managment system"
+# 1. Clone repository
+git clone https://github.com/sarcasticyash/Library-Management-System.git
+cd Library-Management-System
 
-# Launch MongoDB, Backend API, and Frontend SPA in detached mode
+# 2. Launch MongoDB, Backend API, and Frontend SPA in detached mode
 docker compose up -d --build
 ```
 
@@ -129,77 +134,84 @@ Access services:
 - **Liveness Health Probe**: [http://localhost:3000/healthz](http://localhost:3000/healthz)
 - **Readiness Health Probe**: [http://localhost:3000/api/v1/health](http://localhost:3000/api/v1/health)
 
-To view logs or stop containers:
-```bash
-docker compose logs -f
-docker compose down -v
-```
-
-### Method 2: Local Development Environment
+### Method 2: Local Development Setup
 
 Prerequisites: Node.js 20 LTS, npm 10+.
 
 ```bash
-# 1. Install all dependencies across the monorepo
+# 1. Install dependencies across monorepo
 npm install
 
-# 2. Run backend and frontend concurrently
+# 2. Start local backend and frontend concurrently
 npm run backend:dev    # Starts API on http://localhost:3000
 npm run frontend:dev   # Starts Vite SPA on http://localhost:5173
 ```
 
 ### Method 3: Live Verification & Testing Mode
 
-To spin up the live backend with pre-seeded test data (Admin & Patron accounts) and run automated validation:
-
 ```bash
-# Start live backend with seed data
+# 1. Start live backend with pre-seeded test data
 npx tsx scripts/start-live-server.ts
 
-# In another terminal, start frontend preview with proxy
-npm run preview --workspace=apps/frontend
-
-# In another terminal, run full live proxy test
+# 2. Run full-stack live integration suite
 npx tsx scripts/test-live-integration.ts
 ```
 
-Default Credentials for Local/Test Environments:
+Default Test Credentials:
 - **Administrator**: `admin@lms.local` / `Admin123!Secure`
 - **Patron**: `patron@lms.local` / `Patron123!Secure`
+- **Super Admin**: `singhyash0706@gmail.com` / `AdminSecret123!`
 
 ---
 
-## 📁 Repository Structure
+## 📁 Monorepo Folder Structure
 
 ```text
 ├── apps/
-│   ├── backend/             # Node.js 20, Express, Mongoose, Zod, Helmet, Winston
-│   │   ├── Dockerfile       # Multi-stage container build (non-root USER lms)
-│   │   └── src/             # Controllers, Services, Repositories, Schemas, Utils
+│   ├── backend/                    # Node.js 20, Express, Mongoose, Zod, Helmet, Winston
+│   │   ├── Dockerfile              # Multi-stage container build (non-root user lms)
+│   │   ├── src/                    # Controllers, Services, Repositories, Schemas, Utils
+│   │   └── tests/                  # Unit and integration test suites (168 tests)
 │   │
-│   └── frontend/            # React 18, TypeScript, Vite, TanStack Query
-│       ├── Dockerfile       # Multi-stage Nginx container build
-│       ├── nginx.conf       # SPA fallback routing, reverse proxy, gzip, caching
-│       └── src/             # Components, Pages (lazy routes), Context, API clients
+│   └── frontend/                   # React 18, TypeScript, Vite, TanStack Query, Three.js
+│       ├── Dockerfile              # Multi-stage Nginx container build
+│       ├── nginx.conf              # SPA fallback routing, reverse proxy, gzip, caching
+│       └── src/
+│           ├── components/         # Common primitives, Circulation HUD, Layout, 3D Canvas
+│           ├── pages/              # Lazy-loaded Public, Patron, Admin, and Auth routes
+│           ├── mock/               # Offline resilience & localStorage mockDb engine
+│           ├── styles/             # Design tokens & museum-grade archival styling
+│           └── utils/              # Book cover mapping, sound effects, redirect sanitizer
 │
-├── docker-compose.yml       # Production orchestration (mongo, backend, frontend)
-├── .github/workflows/ci.yml # GitHub Actions CI/CD Quality Gate workflow
-├── docs/deployment/         # Operations manual & cloud architecture documentation
-├── scripts/                 # Automated test runners (Stages 1 through 10)
-└── package.json             # Root monorepo workspace configuration
+├── docker-compose.yml              # Production orchestration (mongo, backend, frontend)
+├── .github/workflows/              # GitHub Actions CI/CD Quality Gate workflows
+├── docs/                           # Architecture decision records & deployment specs
+├── infrastructure/                 # Kubernetes EKS manifests and Helm charts
+├── scripts/                        # Quality gate validation and integration test runners
+├── README.md                       # Comprehensive institutional project documentation
+└── package.json                    # Root monorepo workspace configuration
 ```
 
 ---
 
-## 🔒 Security Posture & Architecture Compliance
+## 🔒 Security Posture & Standards
 
-1. **Zero Secret Leakage**: Passwords hashed with `bcrypt` (work factor 12). Password and token hashes stripped from all API outputs. Audit logs sanitized.
+1. **Zero Secret Leakage**: Passwords hashed with `bcrypt` (work factor 12). Passwords and token hashes stripped from all API outputs. Audit logs sanitized.
 2. **Brute-Force & DoS Mitigation**: In-memory sliding-window rate limiting on `/auth/*` endpoints returning HTTP 429 and `Retry-After`. Body-parser 100kb payload ceiling returning HTTP 413.
 3. **Session Family Governance**: Single-use refresh token rotation; reuse of previously rotated tokens immediately revokes the entire session family (`ERR-AUTH-REPLAY-DETECTED`).
 4. **WCAG 2.2 AA Compliance**: Verified primary contrast ratio of 18:1 (exceeding AAA requirement 7:1), visible focus rings on interactive elements, skip navigation links, and full screen-reader ARIA semantics.
 
 ---
 
-## 📄 License & Attribution
+## 👤 Author & Maintainer
 
-Designed and developed by the LMS Engineering Team. Released under the MIT License.
+**Yash Singh**  
+- **Email**: [singhyash0706@gmail.com](mailto:singhyash0706@gmail.com)  
+- **GitHub**: [@sarcasticyash](https://github.com/sarcasticyash)  
+- **Repository**: [https://github.com/sarcasticyash/Library-Management-System](https://github.com/sarcasticyash/Library-Management-System)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.

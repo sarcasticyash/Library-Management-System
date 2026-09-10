@@ -7,7 +7,7 @@ export interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   role: UserRole | null;
-  login: (dto: LoginUserDto) => Promise<void>;
+  login: (dto: LoginUserDto) => Promise<IUserPublic | void>;
   register: (dto: RegisterUserDto) => Promise<IUserPublic>;
   logout: () => Promise<void>;
   refreshProfile: () => Promise<void>;

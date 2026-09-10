@@ -63,11 +63,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
-  const login = useCallback(async (dto: LoginUserDto) => {
+  const login = useCallback(async (dto: LoginUserDto): Promise<IUserPublic> => {
     setIsLoading(true);
     try {
       const response = await authApi.login(dto);
       setUser(response.user);
+      return response.user;
     } finally {
       setIsLoading(false);
     }

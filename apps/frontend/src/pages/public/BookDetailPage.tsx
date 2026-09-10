@@ -9,6 +9,9 @@ import {
   CheckCircle,
   AlertTriangle,
   Layers,
+  Clock,
+  BookCheck,
+  RotateCcw,
 } from 'lucide-react';
 import { bookApi } from '../../api/book.api';
 import { circulationApi } from '../../api/circulation.api';
@@ -20,6 +23,9 @@ import { Badge } from '../../components/common/Badge';
 import { Modal } from '../../components/common/Modal';
 import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
 import { ErrorAlert } from '../../components/ui/ErrorAlert';
+import { CirculationLedgerCorner } from '../../components/circulation/CirculationLedgerCorner';
+import { LuxuryBookCover } from '../../components/ui/LuxuryBookCover';
+import { Feather, Sparkles } from 'lucide-react';
 
 export const BookDetailPage: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -51,6 +57,16 @@ export const BookDetailPage: React.FC = () => {
     queryFn: () => (bookId ? bookApi.getBookAvailability(bookId) : Promise.reject('No ID')),
     enabled: !!bookId,
   });
+
+  // Query user's active loans to check if patron has already borrowed this specific book
+  const { data: myLoansData, refetch: refetchMyLoans } = useQuery({
+    queryKey: ['my-loans'],
+    queryFn: () => circulationApi.getActiveLoans(),
+    enabled: isAuthenticated,
+    staleTime: 15000,
+  });
+
+  const userLoan = myLoansData?.data?.find((l) => l.book?.id === bookId);
 
   const borrowMutation = useMutation({
     mutationFn: () => {
@@ -129,9 +145,84 @@ export const BookDetailPage: React.FC = () => {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: 'var(--space-8)',
+          alignItems: 'start',
+          marginBottom: 'var(--space-12)',
         }}
       >
-        {/* Book Information */}
+        {/* Left Column: 3D Physical Book Cover Showcase */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div
+            style={{
+              position: 'relative',
+              padding: '30px 24px 34px 24px',
+              background: 'linear-gradient(160deg, #ffffff 0%, #faf8f5 50%, #f4ede2 100%)',
+              border: '1.5px solid rgba(212, 175, 55, 0.45)',
+              borderRadius: '20px',
+              boxShadow: '0 16px 40px rgba(44, 24, 16, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+              maxWidth: '360px',
+            }}
+          >
+            {/* Ambient Spotlight Shadow */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '18px',
+                width: '240px',
+                height: '28px',
+                background:
+                  'radial-gradient(ellipse at center, rgba(35, 25, 18, 0.42) 0%, transparent 75%)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            <LuxuryBookCover book={book} size="lg" interactiveHover showRibbon showFoilSheen />
+
+            {/* Edition & Accession Footnote */}
+            <div
+              style={{
+                marginTop: '32px',
+                textAlign: 'center',
+                borderTop: '1px solid rgba(212, 175, 55, 0.3)',
+                paddingTop: '14px',
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Cinzel', 'Plus Jakarta Sans', serif",
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  color: '#b45309',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  marginBottom: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                }}
+              >
+                <Sparkles size={11} color="#d97706" />
+                <span>Nalanda Archival Folio</span>
+              </div>
+              <div
+                style={{
+                  fontSize: '11px',
+                  color: '#78716c',
+                  fontFamily: 'var(--font-family-mono, monospace)',
+                }}
+              >
+                ISBN {book.isbn}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Center / Right Column: Book Information & Synopsis */}
         <div>
           <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
             <Badge variant="neutral">{book.genre}</Badge>
@@ -162,9 +253,15 @@ export const BookDetailPage: React.FC = () => {
               fontSize: 'var(--font-size-lg)',
               color: 'var(--color-text-secondary)',
               marginBottom: 'var(--space-6)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
           >
-            by <strong style={{ color: 'var(--color-text-primary)' }}>{book.author}</strong>
+            <Feather size={16} color="#b45309" />
+            <span>
+              by <strong style={{ color: 'var(--color-text-primary)' }}>{book.author}</strong>
+            </span>
           </p>
 
           <Card style={{ marginBottom: 'var(--space-6)' }}>
@@ -284,11 +381,102 @@ export const BookDetailPage: React.FC = () => {
                   fontSize: 'var(--font-size-sm)',
                 }}
               >
+                <span style={{ color: 'var(--color-text-secondary)' }}>Available Copies:</span>
+                <span style={{ color: '#16a34a', fontWeight: 700 }}>
+                  {availability?.availableCopies ?? book.availableCopies} in repository
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: 'var(--font-size-sm)',
+                }}
+              >
+                <span style={{ color: 'var(--color-text-secondary)' }}>Already Borrowed:</span>
+                <span style={{ color: '#d97706', fontWeight: 700 }}>
+                  {book.totalCopies - (availability?.availableCopies ?? book.availableCopies)} on
+                  loan
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: 'var(--font-size-sm)',
+                }}
+              >
                 <span style={{ color: 'var(--color-text-secondary)' }}>Total Stock:</span>
                 <span style={{ color: 'var(--color-text-primary)' }}>
                   {book.totalCopies} copies in collection
                 </span>
               </div>
+
+              {/* Status and return timer alert if borrowed by user */}
+              {userLoan && (
+                <div
+                  style={{
+                    marginTop: 'var(--space-2)',
+                    padding: 'var(--space-3)',
+                    background: '#fefce8',
+                    border: '1.5px solid #fde047',
+                    borderRadius: 'var(--radius-md)',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        color: '#854d0e',
+                      }}
+                    >
+                      <BookCheck size={14} color="#16a34a" />
+                      <span>Currently in Your Possession</span>
+                    </span>
+                    <Badge variant="warning">Active Loan</Badge>
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      color: userLoan.isOverdue ? '#dc2626' : '#b45309',
+                    }}
+                  >
+                    <Clock size={13} />
+                    <span>
+                      {userLoan.isOverdue
+                        ? `Overdue by ${Math.abs(userLoan.daysRemaining)} days!`
+                        : `${userLoan.daysRemaining} Days Remaining`}
+                    </span>
+                    <span style={{ color: '#78716c', fontWeight: 400 }}>
+                      (Due{' '}
+                      {new Date(userLoan.dueDate).toLocaleDateString('en-IN', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                      )
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Action Buttons */}
@@ -307,6 +495,31 @@ export const BookDetailPage: React.FC = () => {
                 Your account is currently suspended. You may view active loans and return books, but
                 new checkouts are barred.
               </div>
+            ) : userLoan ? (
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => {
+                  void circulationApi.returnBook(userLoan.id).then(() => {
+                    void queryClient.invalidateQueries({ queryKey: ['my-loans'] });
+                    void queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+                    void queryClient.invalidateQueries({ queryKey: ['book-availability', bookId] });
+                    void queryClient.invalidateQueries({ queryKey: ['catalog-summary-all'] });
+                    void refetchBook();
+                    void refetchAvailability();
+                    void refetchMyLoans();
+                  });
+                }}
+                style={{
+                  width: '100%',
+                  borderColor: '#fde047',
+                  color: '#854d0e',
+                  background: '#fefce8',
+                }}
+                leftIcon={<RotateCcw size={18} />}
+              >
+                Return Volume to Archive ({userLoan.daysRemaining}d Left)
+              </Button>
             ) : (
               <Button
                 variant="primary"
@@ -326,6 +539,18 @@ export const BookDetailPage: React.FC = () => {
               </Button>
             )}
           </Card>
+
+          {/* Dedicated Institutional Circulation Ledger Corner */}
+          <div style={{ marginTop: 'var(--space-6)' }}>
+            <CirculationLedgerCorner
+              currentBookId={book.id}
+              onReturnSuccess={() => {
+                void refetchBook();
+                void refetchAvailability();
+                void refetchMyLoans();
+              }}
+            />
+          </div>
         </div>
       </div>
 

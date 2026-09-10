@@ -40,23 +40,39 @@ export const Footer: React.FC = () => {
                   width: '28px',
                   height: '28px',
                   borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'var(--color-primary-600)',
+                  backgroundColor: '#171412',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#ffffff',
+                  color: '#f6f3eb',
                 }}
               >
                 <BookOpen size={16} />
               </div>
-              <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>
-                Cloud-Native LMS
+              <span
+                style={{
+                  fontWeight: 700,
+                  fontFamily: 'var(--font-family-display)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                Nālandā National Library LMS // राष्ट्रीय ग्रंथालय
               </span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-4)',
+                flexWrap: 'wrap',
+              }}
+            >
               <Link to="/books" className="nav-link" style={{ padding: 0 }}>
                 Catalog
+              </Link>
+              <Link to="/contact" className="nav-link" style={{ padding: 0 }}>
+                Helpdesk & Contact
               </Link>
               <Link to="/login" className="nav-link" style={{ padding: 0 }}>
                 Sign In
@@ -108,8 +124,8 @@ export const Footer: React.FC = () => {
           }}
         >
           <p>
-            © {new Date().getFullYear()} Cloud-Native Library Management System. All rights
-            reserved.
+            © {new Date().getFullYear()} Nālandā Cloud-Native Library Management System. Station
+            042-B, Rajpath, New Delhi. All rights reserved.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
             <Shield size={12} />

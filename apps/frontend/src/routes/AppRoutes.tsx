@@ -17,6 +17,9 @@ const CatalogPage = lazy(() =>
 const BookDetailPage = lazy(() =>
   import('../pages/public/BookDetailPage').then((m) => ({ default: m.BookDetailPage })),
 );
+const ContactPage = lazy(() =>
+  import('../pages/public/ContactPage').then((m) => ({ default: m.ContactPage })),
+);
 
 // Auth Pages (Code Split via React.lazy)
 const LoginPage = lazy(() =>
@@ -24,6 +27,9 @@ const LoginPage = lazy(() =>
 );
 const RegisterPage = lazy(() =>
   import('../pages/auth/RegisterPage').then((m) => ({ default: m.RegisterPage })),
+);
+const ForgotPasswordPage = lazy(() =>
+  import('../pages/auth/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage })),
 );
 
 // Patron Pages (Code Split via React.lazy)
@@ -85,11 +91,13 @@ export const AppRoutes: React.FC = () => {
           <Route path="books" element={<CatalogPage />} />
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="books/:bookId" element={<BookDetailPage />} />
+          <Route path="contact" element={<ContactPage />} />
 
-          {/* Guest Only Routes (Login, Register) */}
+          {/* Guest Only Routes (Login, Register, Forgot Password) */}
           <Route element={<GuestOnlyRoute />}>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
           </Route>
 
           {/* Authenticated Routes (Profile) */}

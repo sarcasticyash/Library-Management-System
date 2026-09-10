@@ -28,22 +28,37 @@
   --color-danger-500: #ef4444;
   --color-danger-600: #dc2626;
 
-  /* Surfaces & Backgrounds */
-  --color-bg-canvas: #0b1120;
-  --color-bg-surface: #131d33;
-  --color-bg-surface-elevated: #1e293b;
-  --color-bg-surface-hover: #26354d;
-  --color-border-subtle: #24344d;
-  --color-border-focus: #38bdf8;
+  /* Surfaces & Backgrounds - Warm Cream Editorial Palette (Reference: Image 3) */
+  --color-bg-canvas: #f6f3eb;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-elevated: #efe9de;
+  --color-bg-surface-hover: #e6dfd1;
+  --color-border-subtle: #e2dad0;
+  --color-border-focus: #ff5500;
 
-  /* Typography Colors */
-  --color-text-primary: #f8fafc;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
-  --color-text-inverse: #0f172a;
+  /* Typography Colors - High-Contrast Editorial Charcoal & Black */
+  --color-text-primary: #171412;
+  --color-text-secondary: #59534c;
+  --color-text-muted: #827a72;
+  --color-text-inverse: #ffffff;
 
-  /* Typography Scale */
-  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Editorial & Archive Accent Palette (Reference: Uploaded Photo) */
+  --color-poster-orange: #f14616;
+  --color-poster-black: #1d1815;
+  --color-accent-orange: #f14616;
+  --color-accent-orange-hover: #d6370a;
+  --color-accent-amber: #f97316;
+  --color-accent-amber-glow: rgba(241, 70, 22, 0.25);
+  --color-accent-cream: #f6f3eb;
+  --color-accent-paper: #ece5d8;
+  --color-ticket-bg: #f9f6f0;
+  --color-ticket-text: #1a1615;
+  --color-ticket-border: #ded5c7;
+
+  /* Typography Scale & Families */
+  --font-family-poster: 'Anton', 'Bebas Neue', 'Syne', sans-serif;
+  --font-family-display: 'Syne', 'Plus Jakarta Sans', sans-serif;
+  --font-family-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-mono: 'JetBrains Mono', monospace;
 
   --font-size-xs: 0.75rem;     /* 12px */
@@ -54,6 +69,8 @@
   --font-size-2xl: 1.5rem;     /* 24px */
   --font-size-3xl: 1.875rem;   /* 30px */
   --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  --font-size-6xl: 4.25rem;    /* 68px */
 
   /* Spacing Grid (4px base) */
   --space-1: 0.25rem;   /* 4px */
@@ -66,23 +83,34 @@
   --space-10: 2.5rem;   /* 40px */
   --space-12: 3rem;     /* 48px */
   --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
 
   /* Border Radii */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows & Elevation */
-  --elevation-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --elevation-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --elevation-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  --glass-bg: rgba(19, 29, 51, 0.85);
-  --glass-border: rgba(56, 189, 248, 0.15);
+  /* Shadows & Elevation - Editorial Warm Accents */
+  --elevation-card: 0 4px 14px rgba(23, 20, 18, 0.06), 0 1px 3px rgba(23, 20, 18, 0.04);
+  --elevation-card-hover: 0 12px 28px rgba(23, 20, 18, 0.12), 0 4px 8px rgba(23, 20, 18, 0.06);
+  --elevation-modal: 0 25px 60px -12px rgba(23, 20, 18, 0.35);
+  --elevation-brutalist: 4px 4px 0px #171412;
+  --elevation-glow-orange: 0 0 35px rgba(255, 69, 0, 0.25);
+  --elevation-glow-primary: 0 0 30px rgba(56, 189, 248, 0.2);
+
+  /* Glassmorphism & Floating Pill Tokens */
+  --glass-bg: rgba(246, 243, 235, 0.92);
+  --glass-pill-bg: #181412;
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-hover: rgba(255, 255, 255, 0.25);
+  --glass-border-active: rgba(255, 69, 0, 0.5);
 
   /* Micro-Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-medium: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

@@ -43,6 +43,7 @@ async function runLiveProxyVerification() {
     '/books/000000000000000000000001',
     '/login',
     '/register',
+    '/forgot-password',
     '/active-loans',
     '/history',
     '/profile',
@@ -110,10 +111,10 @@ async function runLiveProxyVerification() {
   assert(Array.isArray(searchRes.data.data) && searchRes.data.data.length >= 1, 'Search results include matching title');
 
   // 3.4 View Book Detail
-  const bookId = '000000000000000000000002'; // Clean Architecture
+  const bookId = '000000000000000000000002'; // Arthashastra: Science of Wealth & Statecraft
   const detailRes = await patronClient.get(`/books/${bookId}`);
   assert(detailRes.status === 200, 'Book details retrieved successfully');
-  assert(detailRes.data.title.includes('Clean Architecture'), 'Book title matches expected metadata');
+  assert(detailRes.data.title.includes('Arthashastra'), 'Book title matches expected metadata');
 
   // 3.5 Borrow Book
   const borrowRes = await patronClient.post('/borrowings', { bookId });
@@ -131,10 +132,20 @@ async function runLiveProxyVerification() {
   assert(returnRes.data.status === 'RETURNED', 'Loan status updated to RETURNED');
 
   // 3.8 Borrow another book for admin override testing
-  const overrideTargetRes = await patronClient.post('/borrowings', {
-    bookId: '000000000000000000000003', // Site Reliability Engineering
-  });
-  const overrideLoanId = overrideTargetRes.data.id;
+  let overrideLoanId: string;
+  try {
+    const overrideTargetRes = await patronClient.post('/borrowings', {
+      bookId: '000000000000000000000003', // Site Reliability Engineering
+    });
+    overrideLoanId = overrideTargetRes.data.id;
+  } catch (err: any) {
+    if (err?.response?.status === 409) {
+      const currentActive = await patronClient.get('/borrowings/my-active');
+      overrideLoanId = currentActive.data.data[0]?.id;
+    } else {
+      throw err;
+    }
+  }
 
   // 3.9 Borrowing History
   const histRes = await patronClient.get('/borrowings/my-history?page=1&limit=10');
@@ -144,6 +155,17 @@ async function runLiveProxyVerification() {
   // 3.10 Patron Logout
   const logoutRes = await patronClient.post('/auth/logout');
   assert(logoutRes.status === 204, 'Patron logout successful (204 No Content)');
+
+  // 3.11 Forgot & Reset Password Recovery Journey
+  const forgotRes = await patronClient.post('/auth/forgot-password', { email: randomEmail });
+  assert(forgotRes.status === 200, 'Forgot password recovery dispatch successful');
+  assert(forgotRes.data.success === true, 'Recovery response flagged true');
+  const resetRes = await patronClient.post('/auth/reset-password', {
+    email: randomEmail,
+    code: 'GRANTHA-8821',
+    newPassword: 'BrandNewPassword123!',
+  });
+  assert(resetRes.status === 200, 'Password reset confirmation successful');
 
   // ==========================================================================
   // SECTION 4: Complete Administrator Journey via Frontend

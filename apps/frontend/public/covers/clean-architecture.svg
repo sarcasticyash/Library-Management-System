@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" width="100%" height="100%">
+  <defs>
+    <!-- Rich Leather Gradient -->
+    <linearGradient id="leatherGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#101012" />
+      <stop offset="45%" stop-color="#202026" />
+      <stop offset="100%" stop-color="#08080a" />
+    </linearGradient>
+
+    <!-- 24K Gold Foil Brilliant Gradient -->
+    <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="85%">
+      <stop offset="0%" stop-color="#b38600" />
+      <stop offset="20%" stop-color="#ffd700" />
+      <stop offset="45%" stop-color="#fff8d1" />
+      <stop offset="70%" stop-color="#ffd700" />
+      <stop offset="100%" stop-color="#997014" />
+    </linearGradient>
+
+    <!-- Center Radiant Amber Aura -->
+    <radialGradient id="centerAura" cx="50%" cy="53%" r="40%">
+      <stop offset="0%" stop-color="#ffd700" stop-opacity="0.22" />
+      <stop offset="60%" stop-color="#ffd700" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#ffd700" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 3D Book Spine Shadow -->
+    <linearGradient id="spineShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.8" />
+      <stop offset="3%" stop-color="#000000" stop-opacity="0.35" />
+      <stop offset="6%" stop-color="#ffffff" stop-opacity="0.2" />
+      <stop offset="10%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Light Sheen Reflection -->
+    <linearGradient id="lightSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2" />
+      <stop offset="28%" stop-color="#ffffff" stop-opacity="0.04" />
+      <stop offset="55%" stop-color="#000000" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.38" />
+    </linearGradient>
+
+    <!-- Subtle Grain Pattern -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="60%" stop-color="#000000" stop-opacity="0" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5" />
+    </radialGradient>
+  </defs>
+
+  <!-- Leather Background -->
+  <rect width="480" height="640" rx="6" fill="url(#leatherGrad)" />
+  <rect width="480" height="640" rx="6" fill="url(#vignette)" />
+
+  <!-- Outer Ornate Gold Border -->
+  <rect x="22" y="22" width="436" height="596" rx="4" fill="none" stroke="url(#goldFoil)" stroke-width="3.5" />
+  
+  <!-- Inner Delicate Filigree Border -->
+  <rect x="32" y="32" width="416" height="576" rx="2" fill="none" stroke="url(#goldFoil)" stroke-width="1.4" stroke-dasharray="6,2.5" />
+
+  <!-- Ornate Corner Ornaments (Top-Left) -->
+  <path d="M 26,50 L 50,26 M 26,62 L 62,26 M 38,38 L 50,50 L 38,62 Z" fill="url(#goldFoil)" stroke="#ffd700" stroke-width="0.6" />
+  <!-- (Top-Right) -->
+  <path d="M 454,50 L 430,26 M 454,62 L 418,26 M 442,38 L 430,50 L 442,62 Z" fill="url(#goldFoil)" stroke="#ffd700" stroke-width="0.6" />
+  <!-- (Bottom-Left) -->
+  <path d="M 26,590 L 50,614 M 26,578 L 62,614 M 38,602 L 50,590 L 38,578 Z" fill="url(#goldFoil)" stroke="#ffd700" stroke-width="0.6" />
+  <!-- (Bottom-Right) -->
+  <path d="M 454,590 L 430,614 M 454,578 L 418,614 M 442,602 L 430,590 L 442,578 Z" fill="url(#goldFoil)" stroke="#ffd700" stroke-width="0.6" />
+
+  <!-- Top Ribbon Badge -->
+  <rect x="100" y="50" width="280" height="26" rx="13" fill="#08080a" stroke="url(#goldFoil)" stroke-width="1.2" />
+  <text x="240" y="67" font-family="'Cinzel', Georgia, serif" font-size="9.5" font-weight="700" letter-spacing="2" fill="#fff8d1" text-anchor="middle">
+    PRENTICE HALL CRAFTSMAN SERIES
+  </text>
+
+  <!-- Title Section -->
+  <text x="240" y="134" font-family="'Cinzel', Georgia, serif" font-size="24" font-weight="800" letter-spacing="1.5" fill="url(#goldFoil)" text-anchor="middle">
+           CLEAN ARCHITECTURE
+         </text>
+
+  <!-- Gold Decorative Divider -->
+  <path d="M 150,182 L 240,182 L 330,182" stroke="url(#goldFoil)" stroke-width="1.8" />
+  <polygon points="240,177 246,182 240,187 234,182" fill="#fff8d1" />
+  <circle cx="150" cy="182" r="3" fill="#ffd700" />
+  <circle cx="330" cy="182" r="3" fill="#ffd700" />
+
+  <!-- Subtitle -->
+  <text x="240" y="202" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.5" fill="#fff8d1" fill-opacity="0.9" text-anchor="middle">
+           A CRAFTSMAN’S GUIDE TO SOFTWARE STRUCTURE
+         </text>
+
+  <!-- Ambient Center Aura -->
+  <circle cx="240" cy="338" r="140" fill="url(#centerAura)" pointer-events="none" />
+
+  <!-- Center Artwork Symbol -->
+  <g id="centerSymbol">
+    
+        <polygon points="240,265 305,302 305,377 240,414 175,377 175,302" fill="none" stroke="#ffd700" stroke-width="1.8"/>
+        <polygon points="240,285 285,311 285,363 240,389 195,363 195,311" fill="none" stroke="#ffd700" stroke-width="2.2"/>
+        <circle cx="240" cy="337" r="28" fill="#fff8d1" fill-opacity="0.25" stroke="#ffd700" stroke-width="2"/>
+        <circle cx="240" cy="337" r="9" fill="#ffd700"/>
+        <path d="M 240,290 L 240,384 M 193,337 L 287,337" stroke="#ffd700" stroke-width="1.2" stroke-dasharray="2,2"/>
+      
+  </g>
+
+  <!-- Bottom Divider -->
+  <path d="M 160,470 L 240,470 L 320,470" stroke="url(#goldFoil)" stroke-width="1.4" />
+  <circle cx="240" cy="470" r="3.5" fill="#fff8d1" />
+
+  <!-- Author Section -->
+  <text x="240" y="502" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" font-weight="600" letter-spacing="2" fill="#fff8d1" fill-opacity="0.75" text-anchor="middle">
+    WRITTEN BY
+  </text>
+  <text x="240" y="528" font-family="'Cinzel', Georgia, serif" font-size="16.5" font-weight="700" letter-spacing="1.2" fill="url(#goldFoil)" text-anchor="middle">
+    ROBERT C. MARTIN (UNCLE BOB)
+  </text>
+
+  <!-- Bottom Archival Stamp -->
+  <text x="240" y="575" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="600" letter-spacing="2" fill="#fff8d1" fill-opacity="0.7" text-anchor="middle">
+    ARCHIVAL COLLECTION // NALANDA REPOSITORY
+  </text>
+
+  <!-- Left 3D Spine Emboss and Shadow -->
+  <rect x="0" y="0" width="36" height="640" fill="url(#spineShadow)" />
+  <line x1="36" y1="0" x2="36" y2="640" stroke="#ffffff" stroke-opacity="0.15" stroke-width="1.2" />
+
+  <!-- Surface Light Sheen Overlay -->
+  <rect width="480" height="640" fill="url(#lightSheen)" pointer-events="none" />
+</svg>

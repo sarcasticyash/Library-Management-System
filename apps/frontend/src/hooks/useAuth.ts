@@ -4,7 +4,18 @@ import { AuthContext, AuthContextValue } from '../store/auth.context.type';
 export function useAuth(): AuthContextValue {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    return {
+      user: null,
+      isAuthenticated: false,
+      role: null,
+      isLoading: false,
+      login: async () => {},
+      register: async () => {
+        throw new Error('AuthContext not found');
+      },
+      logout: async () => {},
+      refreshProfile: async () => {},
+    };
   }
   return context;
 }

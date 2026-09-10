@@ -16,8 +16,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    const redirectTarget = encodeURIComponent(`${location.pathname}${location.search}`);
-    return <Navigate to={`/login?redirect=${redirectTarget}`} replace />;
+    const currentPath = `${location.pathname}${location.search}`;
+    const safeTarget =
+      currentPath && !currentPath.startsWith('/login')
+        ? `?redirect=${encodeURIComponent(currentPath)}`
+        : '';
+    return <Navigate to={`/login${safeTarget}`} replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;
