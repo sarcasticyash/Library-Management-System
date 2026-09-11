@@ -20,7 +20,17 @@ export function createApp(apiRoutes: Router = routes): Application {
   app.use(helmet());
   app.use(
     cors({
-      origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
+      origin: (requestOrigin, callback) => {
+        if (!requestOrigin) return callback(null, true);
+        const isAllowed = allowedOrigins.some((o) => o === '*' || o === requestOrigin);
+        const isVercel = /\.vercel\.app$/.test(requestOrigin);
+        const isLocal = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(requestOrigin);
+
+        if (isAllowed || isVercel || isLocal) {
+          return callback(null, true);
+        }
+        return callback(new Error(`CORS blocked for origin: ${requestOrigin}`));
+      },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Correlation-ID'],

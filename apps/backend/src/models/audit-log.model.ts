@@ -38,14 +38,7 @@ export const AuditLogSchema = new Schema<AuditLogDocument>(
     action: {
       type: String,
       enum: {
-        values: [
-          AuditAction.BOOK_CREATED,
-          AuditAction.BOOK_UPDATED,
-          AuditAction.BOOK_DEACTIVATED,
-          AuditAction.USER_STATUS_UPDATED,
-          AuditAction.ADMIN_RETURN_OVERRIDE,
-          AuditAction.SECURITY_ALERT,
-        ],
+        values: Object.values(AuditAction),
         message: 'Invalid audit action: {VALUE}',
       },
       required: [true, 'Audit action is required'],
