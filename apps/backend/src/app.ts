@@ -60,8 +60,9 @@ export function createApp(apiRoutes: Router = routes): Application {
   // Direct Liveness Probe (Top-level /healthz for Kubernetes & Render)
   app.get('/healthz', HealthController.getLiveness);
 
-  // Canonical API Routes
+  // Canonical API Routes & Direct Aliases
   app.use('/api/v1', apiRoutes);
+  app.use(apiRoutes);
 
   // 404 Not Found Handler
   app.use(notFoundMiddleware);
