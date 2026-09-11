@@ -34,7 +34,20 @@ export function createApp(apiRoutes: Router = routes): Application {
   app.use(correlationMiddleware);
   app.use(requestLoggerMiddleware);
 
-  // Direct Liveness Probe (Top-level /healthz for Kubernetes)
+  // Root Status & Health Endpoints
+  app.get('/', (_req, res) => {
+    res.status(200).json({
+      service: 'Library Management System API',
+      status: 'operational',
+      version: '1.0.0',
+      endpoints: {
+        health: '/healthz',
+        api: '/api/v1',
+      },
+    });
+  });
+
+  // Direct Liveness Probe (Top-level /healthz for Kubernetes & Render)
   app.get('/healthz', HealthController.getLiveness);
 
   // Canonical API Routes
