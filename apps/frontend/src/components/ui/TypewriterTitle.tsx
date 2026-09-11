@@ -55,7 +55,7 @@ export const TypewriterTitle: React.FC = () => {
       orangeWord: 'PULL',
       blackLine1: ['A', 'SPINE.'],
       blackLine2: ['STAMP', 'THE', 'SLIP.'],
-      provenance: '350GSM RAG PAPER • PRESERVED FOREVER',
+      tagline: '350GSM RAG PAPER • PRESERVED FOREVER',
     };
 
   // Character lengths
