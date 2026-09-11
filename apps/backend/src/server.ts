@@ -3,17 +3,22 @@ import { createApp } from './app';
 import { env } from './config/env';
 import { connectDatabase, disconnectDatabase } from './config/database';
 import { logger } from './utils/logger';
+import { seedDatabaseIfEmpty } from './config/seed';
 
 const app = createApp();
 const server = http.createServer(app);
 
-// Connect to MongoDB
-connectDatabase().catch((err: Error) => {
-  logger.warn({
-    message: `Initial MongoDB connection attempt failed or deferred: ${err.message}`,
-    environment: env.NODE_ENV,
+// Connect to MongoDB and auto-seed if newly deployed
+connectDatabase()
+  .then(async () => {
+    await seedDatabaseIfEmpty();
+  })
+  .catch((err: Error) => {
+    logger.warn({
+      message: `Initial MongoDB connection attempt failed or deferred: ${err.message}`,
+      environment: env.NODE_ENV,
+    });
   });
-});
 
 // Start listening on configured port
 server.listen(env.PORT, () => {

@@ -18,12 +18,14 @@ export interface ErrorBoundaryProps {
 export interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
+  errorInfo?: ErrorInfo | null;
 }
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public state: ErrorBoundaryState = {
     hasError: false,
     error: null,
+    errorInfo: null,
   };
 
   public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
@@ -31,7 +33,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // In production, send to telemetry/logging service
+    this.setState({ errorInfo });
     // eslint-disable-next-line no-console
     console.error('Unhandled UI Exception caught by ErrorBoundary:', error, errorInfo);
   }
@@ -129,6 +131,26 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 }}
               >
                 {this.state.error.message}
+                {this.state.error.stack && (
+                  <details style={{ marginTop: '8px', cursor: 'pointer' }}>
+                    <summary style={{ color: 'var(--color-danger-400)', fontWeight: 600 }}>
+                      Inspect Component Stack
+                    </summary>
+                    <pre
+                      style={{
+                        marginTop: '8px',
+                        fontSize: '11px',
+                        whiteSpace: 'pre-wrap',
+                        color: 'var(--color-text-secondary)',
+                        maxHeight: '160px',
+                        overflowY: 'auto',
+                      }}
+                    >
+                      {this.state.error.stack}
+                      {this.state.errorInfo?.componentStack}
+                    </pre>
+                  </details>
+                )}
               </div>
             )}
 

@@ -210,7 +210,7 @@ export const CatalogPage: React.FC = () => {
         />
       )}
 
-      {data && data.data.length === 0 && (
+      {data && Array.isArray(data.data) && data.data.length === 0 && (
         <EmptyState
           title="No Books Found"
           description="We couldn't find any books matching your search filters. Try clearing your search term or adjusting filters."
@@ -224,7 +224,7 @@ export const CatalogPage: React.FC = () => {
         />
       )}
 
-      {data && data.data.length > 0 && (
+      {data && Array.isArray(data.data) && data.data.length > 0 && (
         <>
           <div
             style={{
@@ -527,10 +527,10 @@ export const CatalogPage: React.FC = () => {
           </div>
 
           <PaginationBar
-            page={data.pagination.page}
-            totalPages={data.pagination.totalPages}
-            totalRecords={data.pagination.totalRecords}
-            limit={data.pagination.limit}
+            page={data?.pagination?.page || 1}
+            totalPages={data?.pagination?.totalPages || 1}
+            totalRecords={data?.pagination?.totalRecords || 0}
+            limit={data?.pagination?.limit || 12}
             onPageChange={(newPage) => setPage(newPage)}
           />
         </>
